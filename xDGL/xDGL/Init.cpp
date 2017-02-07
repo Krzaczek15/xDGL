@@ -3,6 +3,8 @@
 #include "Shader.h"
 
 #include "Triangle.h"
+#include "Plane.h"
+#include "Cube.h"
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
@@ -14,9 +16,13 @@ int main() {
 
 	Window* window = new Window(keyCallback, mouseCallback);
 
-	Shader shader = ResourceManager::LoadShader("shaders/vertex/test.vs", "shaders/fragment/test.fs", nullptr, "testShader");
+	Shader testShader = ResourceManager::LoadShader("shaders/vertex/test.vs", "shaders/fragment/test.fs", nullptr, "testShader");
+	Shader coShader = ResourceManager::LoadShader("shaders/vertex/coVertex.vs", "shaders/fragment/coFragment.fs", nullptr, "coShader");
+
 
 	Triangle* triangle = new Triangle();
+	Plane* plane = new Plane();
+	Cube* cube = new Cube();
 
 	while (!window->isClose()) {
 		glfwPollEvents();
@@ -24,8 +30,13 @@ int main() {
 
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		
+		//triangle->Draw(testShader);
+		cube->Draw(coShader);
+		
+		//plane->Draw(testShader);
 
-		triangle->Draw(shader);
 
 		glfwSwapBuffers(window->getWindow());
 	}

@@ -21,6 +21,8 @@ Window::Window(void(*keyboardCallback)(GLFWwindow*, int, int, int, int), void(*m
 	glfwSetKeyCallback(window, keyboardCallback);
 	glfwSetCursorPosCallback(window, mouseCallback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//wireframe danksta
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glewExperimental = GL_TRUE;
 	glewInit();

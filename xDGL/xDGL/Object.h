@@ -6,6 +6,11 @@
 #include <glm.hpp>
 #include <vector>
 
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+
+#include <glfw3.h>
+
 class Object {
 public:
 	GLuint VAO, VBO, EBO;
@@ -26,6 +31,8 @@ public:
 
 	std::vector<colorVertex> colorVertices;
 	std::vector<textureVertex> textureVertices;
+
+	std::vector<GLuint> indices;
 
 	virtual void Init() = 0;
 
