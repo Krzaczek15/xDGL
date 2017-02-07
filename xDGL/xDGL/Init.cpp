@@ -2,6 +2,8 @@
 #include "ResourceManager.h"
 #include "Shader.h"
 
+#include "Triangle.h"
+
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 void doMovement();
@@ -14,6 +16,8 @@ int main() {
 
 	Shader shader = ResourceManager::LoadShader("shaders/vertex/test.vs", "shaders/fragment/test.fs", nullptr, "testShader");
 
+	Triangle* triangle = new Triangle();
+
 	while (!window->isClose()) {
 		glfwPollEvents();
 		doMovement();
@@ -21,7 +25,7 @@ int main() {
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		shader.Use();
+		triangle->Draw(shader);
 
 		glfwSwapBuffers(window->getWindow());
 	}
@@ -36,7 +40,9 @@ void doMovement() {
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
-
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
 }
 
 void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
