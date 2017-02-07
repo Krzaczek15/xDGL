@@ -42,6 +42,12 @@
     <ClCompile Include="Triangle.cpp">
       <Filter>Source Files\2D_OBJECTS</Filter>
     </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Source Files\2D_OBJECTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\3D_OBJECTS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -58,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="Triangle.h">
       <Filter>Header Files\2D_OBJECTS</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files\2D_OBJECTS</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\3D_OBJECTS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
