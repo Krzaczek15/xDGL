@@ -37,6 +37,7 @@ public:
 	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), GLfloat yaw = YAW, GLfloat pitch = PITCH);
 	glm::mat4 getView();
 	void processKeyboard(cameraMovement direction, GLfloat deltaTime);
+	void processMouse(GLfloat xoffset, GLfloat yoffset, GLboolean constrainPitch = true);
 
 private:
 	void updateCameraVectors();

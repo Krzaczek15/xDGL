@@ -28,6 +28,23 @@ void Camera::processKeyboard(cameraMovement direction, GLfloat deltaTime) {
 	}
 }
 
+void Camera::processMouse(GLfloat xoffset, GLfloat yoffset, GLboolean constrainPitch) {
+	xoffset *= mouseSensitivity;
+	yoffset *= mouseSensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	if (constrainPitch) {
+		if (pitch > 89.0f)
+			pitch = 89.0f;
+		if (pitch < -89.0f)
+			pitch = -89.0f;
+	}
+
+	updateCameraVectors();
+}
+
 glm::mat4 Camera::getView() {
 	return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 }

@@ -16,6 +16,9 @@ bool keys[1024];
 
 Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
+GLfloat lastX = 400, lastY = 300;
+bool firstMouse = true;
+
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
 
@@ -76,5 +79,17 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 }
 
 void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
+	if (firstMouse) {
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
 
+	GLfloat xoffset = xpos - lastX;
+	GLfloat yoffset = lastY - ypos;
+
+	lastX = xpos;
+	lastY = ypos;
+
+	camera->processMouse(xoffset, yoffset);
 }
