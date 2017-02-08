@@ -78,8 +78,8 @@ void LightSource::Draw(Shader shader, Camera* camera) {
 	glm::mat4 view;
 	glm::mat4 projection;
 
-	model = glm::translate(model, glm::vec3(0.0f, 2.0f, -2.0f));
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	model = glm::translate(model, glm::vec3(1.2f, 1.0f, 2.0f));
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 	view = camera->getView();
 	projection = glm::perspective(45.0f, (GLfloat)(400 / 300), 0.1f, 100.0f);
 

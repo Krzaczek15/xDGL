@@ -32,8 +32,10 @@ int main() {
 	//Shader testShader = ResourceManager::LoadShader("shaders/vertex/test.vs", "shaders/fragment/test.fs", nullptr, "testShader");
 	//Shader coShader = ResourceManager::LoadShader("shaders/vertex/coVertex.vs", "shaders/fragment/coFragment.fs", nullptr, "coShader");
 
-	Shader shader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lightingShader.fs", nullptr, "objectShader");
-	Shader lampShader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lampShader.fs", nullptr, "objectShader");
+	//Shader shader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lightingShader.fs", nullptr, "objectShader");
+	Shader lampShader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lampShader.fs", nullptr, "xdobjectShader");
+	
+	Shader shader = ResourceManager::LoadShader("shaders/vertex/phong.vs", "shaders/fragment/phong.fs", nullptr, "objectShader");
 
 	Triangle* triangle = new Triangle();
 	Plane* plane = new Plane();
