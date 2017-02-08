@@ -38,6 +38,19 @@ void Plane::Init() {
 void Plane::Draw(Shader shader, Camera* camera) {
 	shader.Use();
 
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 projection;
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 5.0f));
+	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	view = camera->getView();
+	projection = glm::perspective(glm::radians(45.0f), (GLfloat)(400 / 300), 0.1f, 100.0f);
+
+	shader.SetMatrix4("model", model);
+	shader.SetMatrix4("view", view);
+	shader.SetMatrix4("projection", projection);
+
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);

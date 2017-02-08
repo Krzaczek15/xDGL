@@ -3,9 +3,9 @@
 #include "Object.h"
 #include "Camera.h"
 
-class Cube : Object {
+class LightSource : Object {
 public:
-	Cube();
+	LightSource();
 
 	void Init() override;
 	void Draw(Shader shader, Camera* camera) override;

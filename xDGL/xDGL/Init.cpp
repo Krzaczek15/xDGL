@@ -7,6 +7,7 @@
 #include "Triangle.h"
 #include "Plane.h"
 #include "Cube.h"
+#include "LightSource.h"
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
@@ -19,6 +20,8 @@ Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 GLfloat lastX = 400, lastY = 300;
 bool firstMouse = true;
 
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
 
@@ -26,12 +29,16 @@ int main() {
 
 	Window* window = new Window(keyCallback, mouseCallback);
 
-	Shader testShader = ResourceManager::LoadShader("shaders/vertex/test.vs", "shaders/fragment/test.fs", nullptr, "testShader");
-	Shader coShader = ResourceManager::LoadShader("shaders/vertex/coVertex.vs", "shaders/fragment/coFragment.fs", nullptr, "coShader");
+	//Shader testShader = ResourceManager::LoadShader("shaders/vertex/test.vs", "shaders/fragment/test.fs", nullptr, "testShader");
+	//Shader coShader = ResourceManager::LoadShader("shaders/vertex/coVertex.vs", "shaders/fragment/coFragment.fs", nullptr, "coShader");
+
+	Shader shader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lightingShader.fs", nullptr, "objectShader");
+	Shader lampShader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lampShader.fs", nullptr, "objectShader");
 
 	Triangle* triangle = new Triangle();
 	Plane* plane = new Plane();
 	Cube* cube = new Cube();
+	LightSource* light = new LightSource();
 
 	while (!window->isClose()) {
 		GLfloat currentFrame = glfwGetTime();
@@ -40,12 +47,13 @@ int main() {
 		glfwPollEvents();
 		doMovement();
 
-		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		//triangle->Draw(testShader);
-		cube->Draw(coShader, camera);
-		//plane->Draw(testShader);
+		//triangle->Draw(coShader, camera);
+		cube->Draw(shader, camera);
+		light->Draw(lampShader, camera);
+		//plane->Draw(coShader, camera);
 
 		glfwSwapBuffers(window->getWindow());
 	}

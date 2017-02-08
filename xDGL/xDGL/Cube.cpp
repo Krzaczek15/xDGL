@@ -68,12 +68,18 @@ void Cube::Init() {
 void Cube::Draw(Shader shader, Camera* camera) {
 	shader.Use();
 	
+	GLint objectColorLoc = glGetUniformLocation(shader.ID, "objectColor");
+	GLint lightColorLoc = glGetUniformLocation(shader.ID, "lightColor");
+
+	glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f);
+	glUniform3f(lightColorLoc, 1.0f, 0.05f, 1.0f);
+
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
 
 	model = glm::rotate(model, glm::radians((GLfloat)glfwGetTime() * 65.0f), glm::vec3(1.0, 0.3f, 0.5f));
-	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 	view = camera->getView();
 	projection = glm::perspective(glm::radians(45.0f), (GLfloat)(400 / 300), 0.1f, 100.0f);	
 
