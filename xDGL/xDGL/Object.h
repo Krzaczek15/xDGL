@@ -37,7 +37,7 @@ public:
 
 	virtual void Init() = 0;
 
-	virtual void Draw(Shader shader, Camera* camera) = 0;
+	//virtual void Draw(Shader shader, Camera* camera, glm::vec3 lightPos = glm::vec3(0.0f, 0.0f, 0.0f));
 
 	//virtual void Translate() = 0;
 	//virtual void rotateX() = 0;

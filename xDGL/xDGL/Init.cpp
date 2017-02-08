@@ -35,7 +35,8 @@ int main() {
 	//Shader shader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lightingShader.fs", nullptr, "objectShader");
 	Shader lampShader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lampShader.fs", nullptr, "xdobjectShader");
 	
-	Shader shader = ResourceManager::LoadShader("shaders/vertex/phong.vs", "shaders/fragment/phong.fs", nullptr, "objectShader");
+	//Shader shader = ResourceManager::LoadShader("shaders/vertex/phong.vs", "shaders/fragment/phong.fs", nullptr, "objectShader");
+	Shader shader = ResourceManager::LoadShader("shaders/vertex/specular.vs", "shaders/fragment/specular.fs", nullptr, "objectShader");
 
 	Triangle* triangle = new Triangle();
 	Plane* plane = new Plane();
@@ -53,7 +54,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		//triangle->Draw(coShader, camera);
-		cube->Draw(shader, camera);
+		cube->Draw(shader, camera, light->getPosition());
 		light->Draw(lampShader, camera);
 		//plane->Draw(coShader, camera);
 
@@ -74,6 +75,7 @@ void doMovement() {
 		camera->processKeyboard(LEFT, deltaTime);
 	if (keys[GLFW_KEY_D])
 		camera->processKeyboard(RIGHT, deltaTime);
+	
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {

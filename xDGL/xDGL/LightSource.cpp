@@ -1,6 +1,6 @@
 #include "LightSource.h"
 
-LightSource::LightSource() {
+LightSource::LightSource() : lightPos(1.5f, 1.0f, 2.0f) {
 	Init();
 }
 
@@ -13,9 +13,9 @@ void LightSource::Init() {
 	{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f) },
 
 	{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(0.0f, 0.0f, 0.7f) },
-	{ glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(0.5f, 0.0f, 0.1f) },
-	{ glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 0.1f, 0.1f) },
-	{ glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 0.6f, 0.2f) },
+	{ glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(0.5f, 0.0f, 0.1f) },
+	{ glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 0.1f, 0.1f) },
+	{ glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 0.6f, 0.2f) },
 	{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(0.0f, 0.9f, 0.9f) },
 	{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 0.2f, 0.7f) },
 
@@ -26,24 +26,24 @@ void LightSource::Init() {
 	{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 0.2f, 0.1f) },
 	{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(0.3f, 0.4f, 0.0f) },
 
-	{ glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(0.0f, 0.0f, 1.0f) },
-	{ glm::vec3(0.5f,  0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 1.7f) },
-	{ glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f) },
-	{ glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0.7f, 0.7f, 0.1f) },
-	{ glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(0.0f, 0.2f, 0.7f) },
-	{ glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(0.0f, 0.6f, 0.0f) },
+	{ glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(0.0f, 0.0f, 1.0f) },
+	{ glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 1.7f) },
+	{ glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f) },
+	{ glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(0.7f, 0.7f, 0.1f) },
+	{ glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(0.0f, 0.2f, 0.7f) },
+	{ glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(0.0f, 0.6f, 0.0f) },
 
 	{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.5f, 0.5f, 0.1f) },
-	{ glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.7f, 0.2f) },
-	{ glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(0.0f, 0.2f, 0.7f) },
-	{ glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(0.0f, 0.8f, 0.7f) },
+	{ glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.7f, 0.2f) },
+	{ glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(0.0f, 0.2f, 0.7f) },
+	{ glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(0.0f, 0.8f, 0.7f) },
 	{ glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 0.5f, 0.0f) },
 	{ glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f) },
 
 	{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(0.0f, 0.2f, 0.7f) },
-	{ glm::vec3(0.5f,  0.5f, -0.5f), glm::vec3(0.0f, 0.1f, 0.1f) },
-	{ glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 0.6f) },
-	{ glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 0.1f, 0.9f) },
+	{ glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(0.0f, 0.1f, 0.1f) },
+	{ glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 0.6f) },
+	{ glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 0.1f, 0.9f) },
 	{ glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(0.5f, 1.0f, 1.0f) },
 	{ glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(0.1f, 0.2f, 0.7f) }
 	};
@@ -78,10 +78,13 @@ void LightSource::Draw(Shader shader, Camera* camera) {
 	glm::mat4 view;
 	glm::mat4 projection;
 
-	model = glm::translate(model, glm::vec3(1.2f, 1.0f, 2.0f));
+	//lightPos = glm::vec3(sin(glfwGetTime())*2.0f, 0.0f, cos(glfwGetTime())*2.0f);
+
+	model = glm::translate(model, lightPos);
+	//model = glm::rotate(model, glm::radians((GLfloat)glfwGetTime() * 65.0f), glm::vec3(0.0, 1.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 	view = camera->getView();
-	projection = glm::perspective(45.0f, (GLfloat)(400 / 300), 0.1f, 100.0f);
+	projection = glm::perspective(45.0f, float(400)/float(300), 0.1f, 100.0f);
 
 	shader.SetMatrix4("model", model);
 	shader.SetMatrix4("view", view);
@@ -90,4 +93,8 @@ void LightSource::Draw(Shader shader, Camera* camera) {
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
+}
+
+glm::vec3 LightSource::getPosition() {
+	return lightPos;
 }

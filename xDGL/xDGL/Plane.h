@@ -7,7 +7,6 @@ public:
 
 	void Init() override;
 
-	void Draw(Shader shader, Camera* camera) override;
-
+	void Draw(Shader shader, Camera* camera);
 };
 
