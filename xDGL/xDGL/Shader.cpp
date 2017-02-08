@@ -46,6 +46,12 @@ void Shader::Compile(const GLchar* vertexSource, const GLchar* fragmentSource, c
 	}
 }
 
+void Shader::SetMatrix4(const GLchar* name, const glm::mat4 &matrix, GLboolean useShader) {
+	if (useShader)
+		Use();
+	glUniformMatrix4fv(glGetUniformLocation(ID, name), 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
 void Shader::checkCompilerErrors(GLuint object, std::string type) 
 {
 	GLint success;

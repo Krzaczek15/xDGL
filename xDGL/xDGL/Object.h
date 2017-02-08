@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Shader.h"
+#include "Camera.h"
 
 #include <glew.h>
 #include <glm.hpp>
@@ -36,7 +37,7 @@ public:
 
 	virtual void Init() = 0;
 
-	virtual void Draw(Shader shader) = 0;
+	virtual void Draw(Shader shader, Camera* camera) = 0;
 
 	//virtual void Translate() = 0;
 	//virtual void rotateX() = 0;

@@ -35,7 +35,7 @@ void Plane::Init() {
 	glBindVertexArray(0);
 }
 
-void Plane::Draw(Shader shader) {
+void Plane::Draw(Shader shader, Camera* camera) {
 	shader.Use();
 
 	glBindVertexArray(VAO);

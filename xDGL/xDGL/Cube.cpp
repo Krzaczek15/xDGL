@@ -65,7 +65,7 @@ void Cube::Init() {
 	glBindVertexArray(0);
 }
 
-void Cube::Draw(Shader shader) {
+void Cube::Draw(Shader shader, Camera* camera) {
 	shader.Use();
 	
 	glm::mat4 model;
@@ -73,18 +73,15 @@ void Cube::Draw(Shader shader) {
 	glm::mat4 projection;
 
 	model = glm::rotate(model, glm::radians((GLfloat)glfwGetTime() * 65.0f), glm::vec3(1.0, 0.3f, 0.5f));
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-	projection = glm::perspective(45.0f, (GLfloat)(400 / 300), 0.1f, 100.0f);	
+	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	view = camera->getView();
+	projection = glm::perspective(glm::radians(45.0f), (GLfloat)(400 / 300), 0.1f, 100.0f);	
 
-	GLint modelLoc = glGetUniformLocation(shader.ID, "model");
-	GLint viewLoc = glGetUniformLocation(shader.ID, "view");
-	GLint projLoc = glGetUniformLocation(shader.ID, "projection");
+	shader.SetMatrix4("model", model);
+	shader.SetMatrix4("view", view);
+	shader.SetMatrix4("projection", projection);
 
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-		glBindVertexArray(VAO);
+	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 }

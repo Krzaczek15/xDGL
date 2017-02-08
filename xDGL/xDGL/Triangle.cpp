@@ -27,7 +27,7 @@ void Triangle::Init() {
 	glBindVertexArray(0);
 }
 
-void Triangle::Draw(Shader shader) {
+void Triangle::Draw(Shader shader, Camera* camera) {
 	shader.Use();
 
 	glBindVertexArray(VAO);
