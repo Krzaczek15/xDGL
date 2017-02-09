@@ -36,11 +36,12 @@ int main() {
 	Shader lampShader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lampShader.fs", nullptr, "xdobjectShader");
 	
 	//Shader shader = ResourceManager::LoadShader("shaders/vertex/phong.vs", "shaders/fragment/phong.fs", nullptr, "objectShader");
-	Shader shader = ResourceManager::LoadShader("shaders/vertex/specular.vs", "shaders/fragment/specular.fs", nullptr, "objectShader");
+	//Shader shader = ResourceManager::LoadShader("shaders/vertex/specular.vs", "shaders/fragment/specular.fs", nullptr, "objectShader");
+
+	Shader shader = ResourceManager::LoadShader("shaders/vertex/specular.vs", "shaders/fragment/materialTest.fs", nullptr, "objectShader");
 
 	Triangle* triangle = new Triangle();
 	Plane* plane = new Plane();
-	//Cube* cube = new Cube();
 	LightSource* light = new LightSource();
 
 	std::vector<Cube> cubes(10);
@@ -88,14 +89,11 @@ int main() {
 		
 		light->Draw(lampShader, camera);
 
-		//triangle->Draw(coShader, camera);
 		for (int i = 0; i < cubes.size(); i++) {
 			cubes.at(i).setColor(cubesColors.at(i));
 			cubes.at(i).setPosition(cubesPositions.at(i));
 			cubes.at(i).Draw(shader, camera, light->getPosition());
 		}
-
-		//plane->Draw(coShader, camera);
 
 		glfwSwapBuffers(window->getWindow());
 	}

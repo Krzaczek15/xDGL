@@ -58,6 +58,13 @@ void Shader::setVector3(const GLchar* name, const glm::vec3 &vector, GLboolean u
 	glUniform3f(glGetUniformLocation(ID, name), vector.x, vector.y, vector.z);
 }
 
+void Shader::setFloat(const GLchar * name, const float &magicFloat, GLboolean useShader)
+{
+	if (useShader)
+		Use();
+	glUniform1f(glGetUniformLocation(ID, name), magicFloat);
+}
+
 void Shader::checkCompilerErrors(GLuint object, std::string type) 
 {
 	GLint success;
