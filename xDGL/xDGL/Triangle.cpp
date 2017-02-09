@@ -40,12 +40,11 @@ void Triangle::Draw(Shader shader, Camera* camera) {
 	view = camera->getView();
 	projection = glm::perspective(glm::radians(45.0f), (GLfloat)(400 / 300), 0.1f, 100.0f);
 
-	shader.SetMatrix4("model", model);
-	shader.SetMatrix4("view", view);
-	shader.SetMatrix4("projection", projection);
+	shader.setMatrix4("model", model);
+	shader.setMatrix4("view", view);
+	shader.setMatrix4("projection", projection);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glBindVertexArray(0);
 }
-

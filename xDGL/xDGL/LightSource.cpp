@@ -68,27 +68,22 @@ void LightSource::Init() {
 void LightSource::Draw(Shader shader, Camera* camera) {
 	shader.Use();
 
-	GLint objectColorLoc = glGetUniformLocation(shader.ID, "objectColor");
-	GLint lightColorLoc = glGetUniformLocation(shader.ID, "lightColor");
-
-	glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f);
-	glUniform3f(lightColorLoc, 1.0f, 0.05f, 1.0f);
-
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
 
-	//lightPos = glm::vec3(sin(glfwGetTime())*2.0f, 0.0f, cos(glfwGetTime())*2.0f);
+	lightPos = glm::vec3(sin(glfwGetTime())*3.0f, 4.0f, cos(glfwGetTime())*3.0f);
+	// ród³o œwiat³a przyklejone do kamery. Œwietna zabawa i mo¿liwoœci rozwoju.
+	//lightPos = glm::vec3(camera->cameraPos.x, camera->cameraPos.y, camera->cameraPos.z);
 
 	model = glm::translate(model, lightPos);
-	//model = glm::rotate(model, glm::radians((GLfloat)glfwGetTime() * 65.0f), glm::vec3(0.0, 1.0f, 0.0f));
+	model = glm::rotate(model, glm::radians((GLfloat)glfwGetTime() * 65.0f), glm::vec3(0.0, 1.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-	view = camera->getView();
 	projection = glm::perspective(45.0f, float(400)/float(300), 0.1f, 100.0f);
 
-	shader.SetMatrix4("model", model);
-	shader.SetMatrix4("view", view);
-	shader.SetMatrix4("projection", projection);
+	shader.setMatrix4("model", model);
+	shader.setMatrix4("view", camera->getView());
+	shader.setMatrix4("projection", projection);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);

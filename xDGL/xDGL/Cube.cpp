@@ -1,6 +1,6 @@
 #include "Cube.h"
 
-Cube::Cube() : cubePos(0.0f, 0.0f, 0.0f) {
+Cube::Cube() : cubePos(0.0f, 0.0f, 0.0f), cubeColor(0.5f, 0.5f, 0.5f) {
 	Init();
 }
 
@@ -17,7 +17,7 @@ void Cube::Init() {
 					  { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(0.0f,  0.0f,  1.0f) },
 					  { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(0.0f,  0.0f,  1.0f) },
 					  { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(0.0f,  0.0f,  1.0f) },
-					  { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(0.0f,  0.0f,  1.0f) },
+					  { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(0.0f,  0.0f,  1.0f) }, 
 
 					  { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f) },
 					  { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f) },
@@ -31,7 +31,7 @@ void Cube::Init() {
 					  { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f,  0.0f,  0.0f) },
 					  { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f,  0.0f,  0.0f) },
 					  { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f,  0.0f,  0.0f) },
-					  { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f,  0.0f,  0.0f) },
+					  { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f,  0.0f,  0.0f) }, 
 						
 					  { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, -1.0f,  0.0f) },
 					  { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(0.0f, -1.0f,  0.0f) },
@@ -45,7 +45,7 @@ void Cube::Init() {
 					  { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(0.0f,  1.0f,  0.0f) },
 					  { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(0.0f,  1.0f,  0.0f) },
 					  { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(0.0f,  1.0f,  0.0f) },
-					  { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(0.0f,  1.0f,  0.0f) }
+					  { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(0.0f,  1.0f,  0.0f) } 
 	};
 
 	glGenVertexArrays(1, &VAO);
@@ -68,15 +68,10 @@ void Cube::Init() {
 void Cube::Draw(Shader shader, Camera* camera, glm::vec3 lightPos) {
 	shader.Use();
 	
-	GLint objectColorLoc = glGetUniformLocation(shader.ID, "objectColor");
-	GLint lightColorLoc = glGetUniformLocation(shader.ID, "lightColor");
-	GLint lightPosLoc = glGetUniformLocation(shader.ID, "lightPos");
-	GLint viewPosLoc = glGetUniformLocation(shader.ID, "viewPos");
-
-	glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f);
-	glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
-	glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
-	glUniform3f(viewPosLoc, camera->cameraPos.x, camera->cameraPos.y, camera->cameraPos.z);
+	shader.setVector3("objectColor", cubeColor);
+	shader.setVector3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+	shader.setVector3("lightPos", lightPos);
+	shader.setVector3("viewPos", camera->cameraPos);
 
 	glm::mat4 model;
 	glm::mat4 view;
@@ -84,15 +79,21 @@ void Cube::Draw(Shader shader, Camera* camera, glm::vec3 lightPos) {
 
 	model = glm::translate(model, cubePos);
 	//model = glm::rotate(model, glm::radians((GLfloat)glfwGetTime() * 65.0f), glm::vec3(0.0, 1.0f, 0.0f));
-
-	view = camera->getView();
 	projection = glm::perspective(glm::radians(45.0f), float(400) / float(300), 0.1f, 100.0f);
 
-	shader.SetMatrix4("model", model);
-	shader.SetMatrix4("view", view);
-	shader.SetMatrix4("projection", projection);
+	shader.setMatrix4("model", model);
+	shader.setMatrix4("view", camera->getView());
+	shader.setMatrix4("projection", projection);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
+}
+
+void Cube::setPosition(glm::vec3 position) {
+	cubePos = position;
+}
+
+void Cube::setColor(glm::vec3 color) {
+	cubeColor = color;
 }

@@ -46,10 +46,16 @@ void Shader::Compile(const GLchar* vertexSource, const GLchar* fragmentSource, c
 	}
 }
 
-void Shader::SetMatrix4(const GLchar* name, const glm::mat4 &matrix, GLboolean useShader) {
+void Shader::setMatrix4(const GLchar* name, const glm::mat4 &matrix, GLboolean useShader) {
 	if (useShader)
 		Use();
 	glUniformMatrix4fv(glGetUniformLocation(ID, name), 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void Shader::setVector3(const GLchar* name, const glm::vec3 &vector, GLboolean useShader) {
+	if (useShader)
+		Use();
+	glUniform3f(glGetUniformLocation(ID, name), vector.x, vector.y, vector.z);
 }
 
 void Shader::checkCompilerErrors(GLuint object, std::string type) 

@@ -14,7 +14,8 @@ public:
 	Shader() {}
 	Shader &Use();
 	void Compile(const GLchar *vertexSource, const GLchar *fragmentSource, const GLchar *geometrySource = nullptr);
-	void SetMatrix4(const GLchar* name, const glm::mat4 &matrix, GLboolean useShader = false);
+	void setMatrix4(const GLchar* name, const glm::mat4 &matrix, GLboolean useShader = false);
+	void setVector3(const GLchar* name, const glm::vec3 &vector, GLboolean useShader = false);
 private:
 	void checkCompilerErrors(GLuint object, std::string type);
 };

@@ -40,8 +40,41 @@ int main() {
 
 	Triangle* triangle = new Triangle();
 	Plane* plane = new Plane();
-	Cube* cube = new Cube();
+	//Cube* cube = new Cube();
 	LightSource* light = new LightSource();
+
+	std::vector<Cube> cubes(10);
+	std::vector<glm::vec3> cubesPositions = {
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(5.0f, 20.0f, 1.0f),
+		glm::vec3(5.0f, 3.0f, 20.0f),
+
+		glm::vec3(1.0f, 4.0f, 4.0f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
+
+		glm::vec3(5.0f, 0.0f, 1.0f),
+		glm::vec3(5.0f, 7.0f, -2.0f),
+		glm::vec3(2.0f, 5.0f, 5.0f),
+
+		glm::vec3(15.0f, 12.0f, 3.0f)
+	};
+
+	std::vector<glm::vec3> cubesColors = {
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f),
+
+		glm::vec3(1.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 1.0f),
+		glm::vec3(0.2f, 1.0f, 0.5f),
+
+		glm::vec3(0.3f, 0.6f, 1.0f),
+		glm::vec3(0.2f, 0.5f, 0.0f),
+		glm::vec3(0.5f, 0.2f, 1.0f),
+
+		glm::vec3(0.0f, 0.4f, 0.8f)
+	};
 
 	while (!window->isClose()) {
 		GLfloat currentFrame = glfwGetTime();
@@ -53,9 +86,15 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		//triangle->Draw(coShader, camera);
-		cube->Draw(shader, camera, light->getPosition());
 		light->Draw(lampShader, camera);
+
+		//triangle->Draw(coShader, camera);
+		for (int i = 0; i < cubes.size(); i++) {
+			cubes.at(i).setColor(cubesColors.at(i));
+			cubes.at(i).setPosition(cubesPositions.at(i));
+			cubes.at(i).Draw(shader, camera, light->getPosition());
+		}
+
 		//plane->Draw(coShader, camera);
 
 		glfwSwapBuffers(window->getWindow());
