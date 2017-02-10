@@ -251,3 +251,4 @@ paket-files/
 .idea/
 *.sln.iml
 /Maturka
+/xDGL/xDGL/gl_libraries/zip/Simple OpenGL Image Library

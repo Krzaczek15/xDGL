@@ -9,6 +9,8 @@
 #include "Cube.h"
 #include "LightSource.h"
 
+#include <src/SOIL.h>
+
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 void doMovement();
@@ -90,9 +92,9 @@ int main() {
 		light->Draw(lampShader, camera);
 
 		for (int i = 0; i < cubes.size(); i++) {
-			cubes.at(i).setColor(cubesColors.at(i));
-			cubes.at(i).setPosition(cubesPositions.at(i));
-			cubes.at(i).Draw(shader, camera, light->getPosition());
+			cubes.at(i).setColor(cubesColors.at(i)); //STAR PLATINUM
+			cubes.at(i).setPosition(cubesPositions.at(i)); //ZA WARUDO
+			cubes.at(i).Draw(shader, camera, light->getPosition()); 
 		}
 
 		glfwSwapBuffers(window->getWindow());

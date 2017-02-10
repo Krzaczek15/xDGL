@@ -97,7 +97,7 @@ void Cube::Draw(Shader shader, Camera* camera, glm::vec3 lightPos) {
 
 	model = glm::translate(model, cubePos);
 	//model = glm::rotate(model, glm::radians((GLfloat)glfwGetTime() * 65.0f), glm::vec3(0.0, 1.0f, 0.0f));
-	projection = glm::perspective(glm::radians(45.0f), float(400) / float(300), 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(45.0f), float(800) / float(600), 0.1f, 100.0f);
 
 	shader.setMatrix4("model", model);
 	shader.setMatrix4("view", camera->getView());

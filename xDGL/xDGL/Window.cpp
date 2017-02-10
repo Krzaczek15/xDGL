@@ -10,7 +10,7 @@ Window::Window(void(*keyboardCallback)(GLFWwindow*, int, int, int, int), void(*m
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
-	window = glfwCreateWindow(WIDTH, HEIGHT, "xDGL", nullptr, nullptr);
+	window = glfwCreateWindow(WIDTH, HEIGHT, "xDGL", nullptr , nullptr);
 
 	if (window == nullptr)
 	{
@@ -26,7 +26,7 @@ Window::Window(void(*keyboardCallback)(GLFWwindow*, int, int, int, int), void(*m
 
 	glewExperimental = GL_TRUE;
 	glewInit();
-	glViewport(0, 0, WIDTH, HEIGHT);
+	glViewport(0, 0, 800, 600);
 
 	glEnable(GL_DEPTH_TEST);
 }

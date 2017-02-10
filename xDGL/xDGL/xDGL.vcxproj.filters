@@ -54,6 +54,9 @@
     <ClCompile Include="LightSource.cpp">
       <Filter>Source Files\3D_OBJECTS</Filter>
     </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="LightSource.h">
       <Filter>Header Files\3D_OBJECTS</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
