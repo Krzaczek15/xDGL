@@ -65,6 +65,13 @@ void Shader::setFloat(const GLchar * name, const float &magicFloat, GLboolean us
 	glUniform1f(glGetUniformLocation(ID, name), magicFloat);
 }
 
+void Shader::setInteger(const GLchar * name, GLint value, GLboolean useShader)
+{
+	if (useShader)
+		Use();
+	glUniform1i(glGetUniformLocation(ID, name), value);
+}
+
 void Shader::checkCompilerErrors(GLuint object, std::string type) 
 {
 	GLint success;

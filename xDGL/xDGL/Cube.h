@@ -2,6 +2,7 @@
 
 #include "Object.h"
 #include "Camera.h"
+#include "Texture2D.h"
 
 class Cube : Object {
 public:

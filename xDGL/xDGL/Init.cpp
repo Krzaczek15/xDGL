@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "ResourceManager.h"
 #include "Shader.h"
+#include "Texture2D.h"
 
 #include "Camera.h"
 
@@ -40,7 +41,8 @@ int main() {
 	//Shader shader = ResourceManager::LoadShader("shaders/vertex/phong.vs", "shaders/fragment/phong.fs", nullptr, "objectShader");
 	//Shader shader = ResourceManager::LoadShader("shaders/vertex/specular.vs", "shaders/fragment/specular.fs", nullptr, "objectShader");
 
-	Shader shader = ResourceManager::LoadShader("shaders/vertex/specular.vs", "shaders/fragment/materialTest.fs", nullptr, "objectShader");
+	//Shader shader = ResourceManager::LoadShader("shaders/vertex/specular.vs", "shaders/fragment/materialTest.fs", nullptr, "objectShader");
+	Shader shader = ResourceManager::LoadShader("shaders/vertex/textureTest.vs", "shaders/fragment/textureTest.fs", nullptr, "objectShader");
 
 	Triangle* triangle = new Triangle();
 	Plane* plane = new Plane();
@@ -63,21 +65,13 @@ int main() {
 		glm::vec3(15.0f, 12.0f, 3.0f)
 	};
 
-	std::vector<glm::vec3> cubesColors = {
-		glm::vec3(1.0f, 0.0f, 0.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f),
-		glm::vec3(0.0f, 0.0f, 1.0f),
 
-		glm::vec3(1.0f, 1.0f, 0.0f),
-		glm::vec3(0.0f, 1.0f, 1.0f),
-		glm::vec3(0.2f, 1.0f, 0.5f),
+	ResourceManager::LoadTexture("textures/container.png", GL_FALSE, "diffuse");
+	ResourceManager::LoadTexture("textures/specular.png", GL_FALSE, "specular");
 
-		glm::vec3(0.3f, 0.6f, 1.0f),
-		glm::vec3(0.2f, 0.5f, 0.0f),
-		glm::vec3(0.5f, 0.2f, 1.0f),
-
-		glm::vec3(0.0f, 0.4f, 0.8f)
-	};
+	shader.Use();
+	shader.setInteger("material.diffuse", 0);
+	shader.setInteger("material.specular", 1);
 
 	while (!window->isClose()) {
 		GLfloat currentFrame = glfwGetTime();
@@ -88,14 +82,20 @@ int main() {
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		light->Draw(lampShader, camera);
+
+		shader.Use();
+
+		glActiveTexture(GL_TEXTURE0);
+		ResourceManager::GetTexture("diffuse").Bind();
+		glActiveTexture(GL_TEXTURE1);
+		ResourceManager::GetTexture("specular").Bind();
 
 		for (int i = 0; i < cubes.size(); i++) {
-			cubes.at(i).setColor(cubesColors.at(i)); //STAR PLATINUM
 			cubes.at(i).setPosition(cubesPositions.at(i)); //ZA WARUDO
-			cubes.at(i).Draw(shader, camera, light->getPosition()); 
+			cubes.at(i).Draw(shader, camera, light->getPosition()); //TEMEEEE 
 		}
+
+		light->Draw(lampShader, camera);
 
 		glfwSwapBuffers(window->getWindow());
 	}

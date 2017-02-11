@@ -21,8 +21,10 @@ public:
 		glm::vec3 color;
 	};
 
-	struct textureVertex : colorVertex {
-		glm::vec3 texPos;
+	struct textureVertex {
+		glm::vec3 position;
+		glm::vec3 color;
+		glm::vec2 texPos;
 	};
 
 	//Póki nie napisa³em oœwietlenia, to nie ma co siê w to bawiæ.
