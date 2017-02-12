@@ -18,60 +18,56 @@ void doMovement();
 
 bool keys[1024];
 
+Window* window = new Window(keyCallback, mouseCallback);
 Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 GLfloat lastX = 400, lastY = 300;
 bool firstMouse = true;
 
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
 
 int main() {
+	Shader lampShader = ResourceManager::LoadShader("shaders/vertex/vs_lamp.glvs", "shaders/fragment/fs_lamp.glfs", nullptr, "vertex");
+	Shader lightingShader = ResourceManager::LoadShader("shaders/vertex/vs_lighting.glvs", "shaders/fragment/fs_lighting.glfs", nullptr, "fragment");
 
-	Window* window = new Window(keyCallback, mouseCallback);
-
-	//Shader testShader = ResourceManager::LoadShader("shaders/vertex/test.vs", "shaders/fragment/test.fs", nullptr, "testShader");
-	//Shader coShader = ResourceManager::LoadShader("shaders/vertex/coVertex.vs", "shaders/fragment/coFragment.fs", nullptr, "coShader");
-
-	//Shader shader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lightingShader.fs", nullptr, "objectShader");
-	Shader lampShader = ResourceManager::LoadShader("shaders/vertex/lightingShader.vs", "shaders/fragment/lampShader.fs", nullptr, "xdobjectShader");
-	
-	//Shader shader = ResourceManager::LoadShader("shaders/vertex/phong.vs", "shaders/fragment/phong.fs", nullptr, "objectShader");
-	//Shader shader = ResourceManager::LoadShader("shaders/vertex/specular.vs", "shaders/fragment/specular.fs", nullptr, "objectShader");
-
-	//Shader shader = ResourceManager::LoadShader("shaders/vertex/specular.vs", "shaders/fragment/materialTest.fs", nullptr, "objectShader");
-	Shader shader = ResourceManager::LoadShader("shaders/vertex/textureTest.vs", "shaders/fragment/textureTest.fs", nullptr, "objectShader");
-
-	Triangle* triangle = new Triangle();
-	Plane* plane = new Plane();
-	LightSource* light = new LightSource();
+	Texture2D diffuseTex = ResourceManager::LoadTexture("textures/container.png", GL_FALSE, "diffuse");
+	Texture2D specularTex = ResourceManager::LoadTexture("textures/specular.png", GL_FALSE, "specular");
 
 	std::vector<Cube> cubes(10);
+	std::vector<LightSource> lights(4);
+
 	std::vector<glm::vec3> cubesPositions = {
 		glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3(5.0f, 20.0f, 1.0f),
-		glm::vec3(5.0f, 3.0f, 20.0f),
-
-		glm::vec3(1.0f, 4.0f, 4.0f),
-		glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3(0.0f, 0.0f, 0.0f),
-
-		glm::vec3(5.0f, 0.0f, 1.0f),
-		glm::vec3(5.0f, 7.0f, -2.0f),
-		glm::vec3(2.0f, 5.0f, 5.0f),
-
-		glm::vec3(15.0f, 12.0f, 3.0f)
+		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f,  2.0f, -2.5f),
+		glm::vec3(1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
+	std::vector<glm::vec3> lightPositions = {
+		glm::vec3(0.7f, 0.2f, 2.0f),
+		glm::vec3(2.3f, -3.3f, -4.0f),
+		glm::vec3(-4.0f, -2.0f, -15.0f),
+		glm::vec3(0.0f, 0.0f, -3.0f)
+	};
 
-	ResourceManager::LoadTexture("textures/container.png", GL_FALSE, "diffuse");
-	ResourceManager::LoadTexture("textures/specular.png", GL_FALSE, "specular");
+	std::vector<glm::vec3> lightColors = {
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f)
+	};
 
-	shader.Use();
-	shader.setInteger("material.diffuse", 0);
-	shader.setInteger("material.specular", 1);
+	lightingShader.Use();
+	lightingShader.setInteger("material.diffuse", 0);
+	lightingShader.setInteger("material.specular", 1);
 
 	while (!window->isClose()) {
 		GLfloat currentFrame = glfwGetTime();
@@ -83,19 +79,46 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		shader.Use();
+		lightingShader.Use();
 
-		glActiveTexture(GL_TEXTURE0);
-		ResourceManager::GetTexture("diffuse").Bind();
-		glActiveTexture(GL_TEXTURE1);
-		ResourceManager::GetTexture("specular").Bind();
+		lightingShader.setVector3("viewPos", camera->cameraPos);
+		lightingShader.setFloat("material.shininess", 32.0f);
 
-		for (int i = 0; i < cubes.size(); i++) {
-			cubes.at(i).setPosition(cubesPositions.at(i)); //ZA WARUDO
-			cubes.at(i).Draw(shader, camera, light->getPosition()); //TEMEEEE 
+		lightingShader.setVector3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+		lightingShader.setVector3("dirLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+		lightingShader.setVector3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
+		lightingShader.setVector3("dirLight.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+
+		for (GLuint i = 0; i < 4; i++)
+		{
+			std::string number = std::to_string(i);
+			lightingShader.setVector3(("pointLights[" + number + "].position").c_str(), lightPositions.at(i));
+			lightingShader.setVector3(("pointLights[" + number + "].ambient").c_str(), glm::vec3(0.01f, 0.01f, 0.01f));
+			lightingShader.setVector3(("pointLights[" + number + "].diffuse").c_str(), lightColors.at(i));
+			lightingShader.setVector3(("pointLights[" + number + "].specular").c_str(), glm::vec3(1.0f, 1.0f, 1.0f));
+			lightingShader.setFloat(("pointLights[" + number + "].constant").c_str(), 1.0f);
+			lightingShader.setFloat(("pointLights[" + number + "].linear").c_str(), 0.09f);
+			lightingShader.setFloat(("pointLights[" + number + "].quadratic").c_str(), 0.032f);
 		}
 
-		light->Draw(lampShader, camera);
+		glActiveTexture(GL_TEXTURE0);
+		diffuseTex.Bind();
+		glActiveTexture(GL_TEXTURE1);
+		specularTex.Bind();
+
+		for (int i = 0; i < cubes.size(); i++) {
+			cubes.at(i).setPosition(cubesPositions.at(i));
+			cubes.at(i).Draw(lightingShader, camera); 
+		}
+
+		lampShader.Use();
+
+		for (GLuint i = 0; i < 4; i++)
+		{
+			lampShader.setVector3("lightColor", lightColors.at(i));
+			lights.at(i).Draw(lampShader, camera);
+			lights.at(i).setPosition(lightPositions.at(i));
+		}
 
 		glfwSwapBuffers(window->getWindow());
 	}
@@ -114,7 +137,6 @@ void doMovement() {
 		camera->processKeyboard(LEFT, deltaTime);
 	if (keys[GLFW_KEY_D])
 		camera->processKeyboard(RIGHT, deltaTime);
-	
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {

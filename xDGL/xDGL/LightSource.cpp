@@ -66,15 +66,11 @@ void LightSource::Init() {
 }
 
 void LightSource::Draw(Shader shader, Camera* camera) {
-	shader.Use();
-
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
 
-	lightPos = glm::vec3(sin(glfwGetTime())*3.0f, 4.0f, cos(glfwGetTime())*3.0f);
-	// ród³o œwiat³a przyklejone do kamery. Œwietna zabawa i mo¿liwoœci rozwoju.
-	//lightPos = glm::vec3(camera->cameraPos.x, camera->cameraPos.y, camera->cameraPos.z);
+	//lightPos = glm::vec3(sin(glfwGetTime())*3.0f, 4.0f, cos(glfwGetTime())*3.0f);
 
 	model = glm::translate(model, lightPos);
 	model = glm::rotate(model, glm::radians((GLfloat)glfwGetTime() * 65.0f), glm::vec3(0.0, 1.0f, 0.0f));
@@ -88,6 +84,10 @@ void LightSource::Draw(Shader shader, Camera* camera) {
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
+}
+
+void LightSource::setPosition(glm::vec3 lightPos) {
+	this->lightPos = lightPos;
 }
 
 glm::vec3 LightSource::getPosition() {

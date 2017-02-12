@@ -12,7 +12,7 @@ public:
 	glm::vec3 cubeColor;
 
 	void Init() override;
-	void Draw(Shader shader, Camera* camera, glm::vec3 lightPos);
+	void Draw(Shader shader, Camera* camera);
 
 	void setPosition(glm::vec3 position);
 	void setColor(glm::vec3 color);

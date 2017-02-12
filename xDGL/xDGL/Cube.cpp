@@ -68,18 +68,7 @@ void Cube::Init() {
 	glBindVertexArray(0);
 }
 
-void Cube::Draw(Shader shader, Camera* camera, glm::vec3 lightPos) {
-	shader.setVector3("light.position", lightPos);
-	shader.setVector3("viewPos", camera->cameraPos);
-
-
-	shader.setVector3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-	shader.setVector3("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
-	shader.setVector3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-
-	shader.setVector3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-	shader.setFloat("material.shininess", 64.0f);
-
+void Cube::Draw(Shader shader, Camera* camera) {
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;

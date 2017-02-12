@@ -26,7 +26,7 @@ Window::Window(void(*keyboardCallback)(GLFWwindow*, int, int, int, int), void(*m
 
 	glewExperimental = GL_TRUE;
 	glewInit();
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, WIDTH, HEIGHT);
 
 	glEnable(GL_DEPTH_TEST);
 }
