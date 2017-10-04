@@ -11,6 +11,7 @@ public:
 	glm::vec3 cubePos;
 	glm::vec3 cubeColor;
 
+
 	void Init() override;
 	void Draw(Shader shader, Camera* camera);
 
